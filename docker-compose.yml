@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # SERVIÇO 1: PYTHON
+  app:
+    build: .
+    container_name: olist_app_etl
+    volumes:
+      - .:/app
+    command: sleep infinity
+    depends_on:
+      - db_dw
+      - db_erp
+    environment:
+      # Credenciais do Data Warehouse (Destino)
+      DW_HOST: db_dw
+      DW_USER: postgres
+      DW_PASS: postgres
+      DW_NAME: olist_dw
+      # Credenciais do ERP (Origem Simulada)
+      ERP_HOST: db_erp
+      ERP_USER: postgres
+      ERP_PASS: postgres
+      ERP_NAME: olist_erp
+
+  # SERVIÇO 2: DATA WAREHOUSE (DESTINO)
+  db_dw:
+    image: postgres:15
+    container_name: olist_db_dw
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: olist_dw
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data_dw:/var/lib/postgresql/data
+
+  # SERVIÇO 3: ERP / SISTEMA LEGADO (ORIGEM)
+  db_erp:
+    image: postgres:15
+    container_name: olist_db_erp
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: olist_erp
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_data_erp:/var/lib/postgresql/data
+
+# Definição dos volumes
+volumes:
+  pg_data_dw:
+  pg_data_erp:

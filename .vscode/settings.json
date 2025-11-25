@@ -1,0 +1,25 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "db_erp",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "ERP (Origem)",
+            "database": "olist_erp",
+            "username": "postgres"
+        },
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "db_dw",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "DW (Destino)",
+            "database": "olist_dw",
+            "username": "postgres"
+        }
+    ]
+}
