@@ -107,12 +107,12 @@ def extrair_cotacao_dolar():
     # Extrai de API externa em USD-BRL
     print("\nExtraindo cotação de API...")
     try:
-        url = "https://awesomeapi.com.br/json/last/USD-BRL"
+        url = "https://open.er-api.com/v6/latest/USD"
         response = requests.get(url, timeout=5)
 
         if response.status_code == 200:
             dados = response.json()
-            bid = float(dados['USDBRL']['bid'])
+            bid = float(dados['rates']['BRL'])
             print(f"Dólar hoje: R${bid:.2f}")
             return bid
         else:
