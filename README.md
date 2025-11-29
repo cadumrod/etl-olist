@@ -21,92 +21,97 @@ O pipeline segue a **Arquitetura Medalhão (Medallion Architecture)** e integra 
 
 ```mermaid
 graph TD
-    A[CSVs Olist] -->|Ingestão| D[Python ETL Container]
-    B[ERP Postgres] -->|Query SQL| D
-    C[API Câmbio] -->|Request JSON| D
-    D -->|Load Raw| E[(Bronze Schema)]
-    D -->|Clean / Join| F[(Silver Schema)]
-    F -->|Aggregate| G[(Gold Schema)]
+    A["📄 CSVs Olist"] -->|Ingestão| D["🐍 Python ETL Container"]
+    B["🗄️ ERP Postgres"] -->|Query SQL| D
+    C["🌐 API Câmbio"] -->|Request JSON| D
+    D -->|Load Raw| E[("🥉 Bronze Schema")]
+    E -->|Clean & Join| F[("🥈 Silver Schema")]
+    F -->|Aggregate| G[("🥇 Gold Schema")]
+```
 
-🛠️ Tech Stack
+---
 
-    Linguagem: Python 3.10
+## 🛠️ Tech Stack
 
-    Orquestração & Infra: Docker & Docker Compose
+* **Linguagem:** Python 3.10
+* **Orquestração & Infra:** Docker & Docker Compose
+* **Banco de Dados:** PostgreSQL 15 (Containers isolados para ERP e DW)
+* **Bibliotecas Principais:** Pandas, SQLAlchemy, Requests, Psycopg2
+* **Cloud:** AWS EC2 (Ubuntu Linux)
 
-    Banco de Dados: PostgreSQL 15 (Containers isolados para ERP e DW)
+---
 
-    Bibliotecas Principais: Pandas, SQLAlchemy, Requests, Psycopg2
+## 📸 Evidências de Execução (Deploy na AWS)
 
-    Cloud: AWS EC2 (Ubuntu Linux)
+O projeto foi implantado e executado com sucesso em uma instância **EC2 na AWS**, comprovando a portabilidade da infraestrutura Docker.
 
-📸 Evidências de Execução (Deploy na AWS)
+### 1. Infraestrutura Provisionada (EC2)
+*Servidor Linux Ubuntu rodando na região us-east-1.*
+![AWS EC2](docs/img/01_aws_instancia_rodando.png)
 
-O projeto foi implantado e executado com sucesso em uma instância EC2 na AWS, comprovando a portabilidade da infraestrutura Docker.
+### 2. Orquestração de Containers
+*Três serviços rodando simultaneamente: Aplicação ETL, Banco ERP (Origem) e Banco DW (Destino).*
+![Docker Compose](docs/img/02_docker_compose_nuvem.png)
 
-1. Infraestrutura Provisionada (EC2)
+### 3. Pipeline em Execução
+*Log do processamento ETL, demonstrando conexão com API, Extração SQL e Carga.*
+![Log Execução](docs/img/03_log_execucao_sucesso.png)
 
-Servidor Linux Ubuntu rodando na região us-east-1.
+### 4. Resultado Final (Banco de Dados Gold)
+*Dados agregados e monetariamente formatados disponíveis no Data Warehouse na nuvem.*
+![Query Gold](docs/img/04_dados_no_banco_gold.png)
 
-2. Orquestração de Containers
+---
 
-Três serviços rodando simultaneamente: Aplicação ETL, Banco ERP (Origem) e Banco DW (Destino).
+## 🚀 Como Executar
 
-3. Pipeline em Execução
+### Pré-requisitos
+* Docker e Docker Compose instalados.
+* Git.
 
-Log do processamento ETL, demonstrando conexão com API, Extração SQL e Carga.
+### Passo a Passo
 
-4. Resultado Final (Banco de Dados Gold)
-
-Dados agregados e monetariamente formatados disponíveis no Data Warehouse na nuvem.
-
-🚀 Como Executar
-
-Pré-requisitos
-
-    Docker e Docker Compose instalados.
-
-    Git.
-
-Passo a Passo
-
-    Clone o repositório:
-    Bash
-
-git clone [https://github.com/SEU_USUARIO/etl-olist.git](https://github.com/SEU_USUARIO/etl-olist.git)
+**1. Clone o repositório:**
+```bash
+git clone https://github.com/SEU_USUARIO/etl-olist.git
 cd etl-olist
+```
 
-Adicione os Dados:
+**2. Adicione os Dados:**
+* Baixe o dataset do Olist no Kaggle.
+* Coloque os arquivos `.csv` na pasta `data/raw/`.
 
-    Baixe o dataset do Olist no Kaggle.
-
-    Coloque os arquivos .csv na pasta data/raw/.
-
-Suba a Infraestrutura:
-Bash
-
+**3. Suba a Infraestrutura:**
+```bash
 docker compose up -d --build
+```
 
-Inicialize os Bancos (Primeira vez apenas):
+**4. Inicialize os Bancos (Primeira vez apenas):**
+* É necessário criar as tabelas no ERP e os schemas no DW.
+* Utilize os scripts contidos na pasta `sql/`. Exemplo via linha de comando (se estiver no Linux/AWS):
 
-    É necessário criar as tabelas no ERP e os schemas no DW.
+```bash
+# Injetar ERP
+docker exec -i olist_db_erp psql -U postgres -d olist_erp < sql/init_erp.sql
 
-    Utilize os scripts contidos na pasta sql/ (init_erp.sql e init_dw.sql) via cliente SQL ou linha de comando.
+# Injetar DW
+docker exec -i olist_db_dw psql -U postgres -d olist_dw < sql/init_dw.sql
+```
 
-Execute o Pipeline:
-
-    Se estiver usando VS Code Dev Container, apenas rode:
-
-Bash
-
+**5. Execute o Pipeline:**
+* Se estiver usando VS Code Dev Container, apenas rode:
+```bash
 python src/etl.py
+```
+* Se estiver externo (ou na AWS):
+```bash
+docker exec olist_app_etl python src/etl.py
+```
 
-    Se estiver externo:
+---
 
-Bash
+## 👨‍💻 Autor
 
-    docker exec olist_app_etl python src/etl.py
-
-👨‍💻 Autor
-
-Cadu Engenheiro de Dados em Transição de Carreira Focado em construção de pipelines robustos, arquitetura de dados e cloud computing.
+**Cadu**
+*Engenheiro de Dados em Transição de Carreira*
+Focado em construção de pipelines robustos, arquitetura de dados e cloud computing.
