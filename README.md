@@ -114,4 +114,4 @@ docker exec olist_app_etl python src/etl.py
 
 **Carlos Rodrigues**,
 *Engenheiro de Dados em Transição de Carreira*
-Focado em construção de pipelines robustos, arquitetura de dados e cloud computing.
+focado em construção de pipelines robustos, arquitetura de dados e cloud computing.
