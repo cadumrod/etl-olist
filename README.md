@@ -59,7 +59,7 @@ O projeto foi implantado e executado com sucesso em uma instância **EC2 na AWS*
 
 ### 4. Resultado Final (Banco de Dados Gold)
 *Dados agregados e monetariamente formatados disponíveis no Data Warehouse na nuvem.*
-![Query Gold](docs/img/04_dados_no_banco_gold.png)
+![Query Gold](docs/img/04_dados_banco_gold.png)
 
 ---
 
