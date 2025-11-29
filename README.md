@@ -73,7 +73,7 @@ O projeto foi implantado e executado com sucesso em uma instância **EC2 na AWS*
 
 **1. Clone o repositório:**
 ```bash
-git clone https://github.com/SEU_USUARIO/etl-olist.git
+git clone https://github.com/cadumrod/etl-olist.git
 cd etl-olist
 ```
 
@@ -112,6 +112,6 @@ docker exec olist_app_etl python src/etl.py
 
 ## 👨‍💻 Autor
 
-**Cadu**
+**Carlos Rodrigues**,
 *Engenheiro de Dados em Transição de Carreira*
 Focado em construção de pipelines robustos, arquitetura de dados e cloud computing.
