@@ -1,7 +1,7 @@
-# 🇧🇷 Olist End-to-End Data Pipeline
+# Olist End-to-End Data Pipeline
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-24.0-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-v28-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![Postgres](https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-EC2-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 
@@ -20,13 +20,13 @@ O pipeline segue a **Arquitetura Medalhão (Medallion Architecture)** e integra 
 3.  **API Externa (Web):** Consumo de API de Câmbio em tempo real para cálculo de faturamento em Dólar.
 
 ```mermaid
-graph TD;
-    A[📄 CSVs Olist] -->|Ingestão| D[🐍 Python ETL Container];
-    B[🗄️ ERP Postgres] -->|Query SQL| D;
-    C[🌐 API Câmbio] -->|Request JSON| D;
-    D -->|Load Raw| E[(🥉 Bronze Schema)];
-    E -->|Clean & Join| F[(🥈 Silver Schema)];
-    F -->|Aggregate| G[(🥇 Gold Schema)];
+graph TD
+    A[CSVs Olist] -->|Ingestão| D[Python ETL Container]
+    B[ERP Postgres] -->|Query SQL| D
+    C[API Câmbio] -->|Request JSON| D
+    D -->|Load Raw| E[(Bronze Schema)]
+    D -->|Clean / Join| F[(Silver Schema)]
+    F -->|Aggregate| G[(Gold Schema)]
 
 🛠️ Tech Stack
 
